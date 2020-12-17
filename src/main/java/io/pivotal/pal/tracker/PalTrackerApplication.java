@@ -6,19 +6,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import javax.sql.DataSource;
+
 @SpringBootApplication
 public class PalTrackerApplication {
     public static void main(String[] args){
         SpringApplication.run(PalTrackerApplication.class, args);
     }
 
-    @Value("${SPRING_DATASOURCE_URL}")
-    private String dataSourceUrl;
-
     @Bean
-    public TimeEntryRepository generateTimeEntryRepo() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl(dataSourceUrl);
+    public TimeEntryRepository generateTimeEntryRepo(DataSource dataSource) {
         return new JdbcTimeEntryRepository(dataSource);
     }
 }
